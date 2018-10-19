@@ -35,4 +35,26 @@ router.get('/:id', validateSession, (req, res) => {
       .catch(err => res.status(500).json({error: err}))
 })
 
+/***********************************
+ **       UPDATE -- TEA INFO      **
+ ***********************************/
+router.put('/:id', validateSession, (req, res) => {
+    if (!req.errors) {
+        Tea.update(req.body, { where: { id: req.params.id }})
+        .then(tea => res.status(200).json(tea))
+        .catch(err => res.json(req.errors))
+    } else {
+        res.status(500).json(req.errors)
+    }
+})
+
+/***********************************
+ **   DELETE -- TEA CANCELED   **
+ ***********************************/
+router.delete('/:id', validateSession, (req, res) => {
+    Tea.destroy({ where: {id: req.params.id }})
+    .then(tea => res.status(200).json(tea))
+    .catch(err => res.status(500).json({ error: err}))
+})
+
 module.exports = router;
